@@ -1,0 +1,3 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package dslVersion="1.0.0.0" Id="52a2a081-0629-4c91-a4df-357633f98e36" solutionId="52a2a081-0629-4c91-a4df-357633f98e36" xmlns="http://schemas.microsoft.com/VisualStudio/2008/SharePointTools/PackageModel" name="Bugfree.SharePoint.ListAttachmentVersioning">
+</package>

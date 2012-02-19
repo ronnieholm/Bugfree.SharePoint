@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bugfree.SharePoint.ListAttachmentVersioning", "Bugfree.SharePoint.ListAttachmentVersioning\Bugfree.SharePoint.ListAttachmentVersioning.csproj", "{FD32E58B-8B29-4A51-8531-2E45753648E6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bugfree.SharePoint.Common", "Bugfree.SharePoint.Common\Bugfree.SharePoint.Common.csproj", "{A45CFE87-64D5-44DD-A680-D62506BEF629}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FD32E58B-8B29-4A51-8531-2E45753648E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD32E58B-8B29-4A51-8531-2E45753648E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD32E58B-8B29-4A51-8531-2E45753648E6}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{FD32E58B-8B29-4A51-8531-2E45753648E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD32E58B-8B29-4A51-8531-2E45753648E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD32E58B-8B29-4A51-8531-2E45753648E6}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{A45CFE87-64D5-44DD-A680-D62506BEF629}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A45CFE87-64D5-44DD-A680-D62506BEF629}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A45CFE87-64D5-44DD-A680-D62506BEF629}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{A45CFE87-64D5-44DD-A680-D62506BEF629}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A45CFE87-64D5-44DD-A680-D62506BEF629}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A45CFE87-64D5-44DD-A680-D62506BEF629}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
