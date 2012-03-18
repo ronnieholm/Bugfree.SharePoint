@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Linq;
 using Microsoft.SharePoint;
 
-namespace Bugfree.SharePoint.Common.ListAttachmentVersioning
+namespace Bugfree.SharePoint.ListAttachmentVersioning.Source
 {
     // Prerequisites:
     // 1. Create a Document Library named ShadowLibrary on the same site as the list to version
@@ -76,7 +76,8 @@ namespace Bugfree.SharePoint.Common.ListAttachmentVersioning
                 var path = string.Format("Versions/{0}/{1}", item.ID, restoreVersion);
                 var shadowLibrary = site.Lists[ShadowLibrary] as SPDocumentLibrary;
                 var source = CreateFolderPath(shadowLibrary, path);
-                foreach (SPFile file in source.Files) item.Attachments.Add(file.Name, file.OpenBinary());
+                foreach (SPFile file in source.Files) 
+                    item.Attachments.Add(file.Name, file.OpenBinary());
             }
             item.SystemUpdate(false);
             EventFiringEnabled = true;

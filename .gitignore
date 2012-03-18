@@ -1,4 +1,6 @@
 *.suo
-*ReSharper
+*ReSharper*
 *bin/debug
 *bin/release
+*obj
+*bin
