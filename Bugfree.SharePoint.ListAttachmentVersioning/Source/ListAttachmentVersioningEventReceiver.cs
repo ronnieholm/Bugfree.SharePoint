@@ -9,6 +9,10 @@ namespace Bugfree.SharePoint.ListAttachmentVersioning.Source
     // Prerequisites:
     // 1. Create a Document Library named ShadowLibrary on the same site as the list to version
     // 2. Add a row named CustomVersion of type string to the list to version
+    
+    // See also:
+    // http://www.bugfree.dk/blog/2011/11/17/versioning-attachments-in-a-sharepoint-list-using-snapshotting/
+
     public class ListAttachmentVersioningEventReceiver : SPItemEventReceiver
     {
         private const string CustomVersion = "CustomVersion";
