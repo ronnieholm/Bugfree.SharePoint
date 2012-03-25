@@ -64,6 +64,7 @@
     <None Include="Package\Package.Template.xml">
       <DependentUpon>Package.package</DependentUpon>
     </None>
+    <Content Include="Source\ListAttachmentVersioningEventReceiver.fs.txt" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Features\" />

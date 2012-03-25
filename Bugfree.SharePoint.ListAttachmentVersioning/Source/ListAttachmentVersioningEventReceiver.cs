@@ -12,7 +12,7 @@ namespace Bugfree.SharePoint.ListAttachmentVersioning.Source
     
     // See also:
     // http://www.bugfree.dk/blog/2011/11/17/versioning-attachments-in-a-sharepoint-list-using-snapshotting/
-
+                 
     public class ListAttachmentVersioningEventReceiver : SPItemEventReceiver
     {
         private const string CustomVersion = "CustomVersion";

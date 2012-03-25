@@ -51,6 +51,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Source\DataAccess\ListDefinition.cs" />
+    <Compile Include="Source\DataAccess\ListRepository.cs" />
+    <Compile Include="Source\Extensions\SPFieldCollectionExtensions.cs" />
+    <Compile Include="Source\Extensions\SPListCollectionExtensions.cs" />
+    <Compile Include="Source\Extensions\SPViewCollectionExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Bugfree.SharePoint.snk">

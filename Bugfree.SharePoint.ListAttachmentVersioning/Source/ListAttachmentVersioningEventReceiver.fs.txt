@@ -1,0 +1,106 @@
+﻿namespace Bugfree.SharePoint.ListAttachmentVersioning.Source
+
+open System
+open System.Globalization
+open Microsoft.SharePoint
+
+// See also:
+// http://www.bugfree.dk/blog/2011/11/21/f-sharepoint-a-list-attachment-versioning-event-receiver/
+
+type public ListAttachmentVersioningEventReceiver() =
+    inherit SPItemEventReceiver()
+
+    member private r.CustomVersion = "CustomVersion"
+    member private r.ShadowLibrary = "ShadowLibrary"
+
+    // override ItemAdded : properties:SPItemEventProperties -> unit
+    override r.ItemAdded properties =
+        base.ItemAdded properties
+        r.SetCustomVersionLabel properties.ListItem
+        r.CreateSnapshot properties
+
+    // override ItemUpdated : properties:SPItemEventProperties -> unit
+    override r.ItemUpdated properties =
+        base.ItemUpdated properties
+        let item = properties.ListItem
+
+        if r.RollbackHappened item then
+            r.RestoreSnapshot properties
+            r.SetCustomVersionLabel item
+            r.CreateSnapshot properties
+        else
+            r.CreateSnapshot properties
+            r.SetCustomVersionLabel item
+
+    // member private CreateSnapshot : properties:SPItemEventProperties -> unit
+    member private r.CreateSnapshot properties =
+        use site = properties.OpenWeb()
+        let item = properties.ListItem
+        let shadowLibrary = site.Lists.[r.ShadowLibrary] :?> SPDocumentLibrary
+        let path = String.Format("Versions/{0}/{1}", item.ID, r.GetOfficialVersionLabel(item))
+        let shadowFolder = r.CreateFolderPath shadowLibrary path
+
+        item.Attachments |> Seq.cast |> Seq.iter (fun fileName ->
+            let existingFile = item.ParentList.ParentWeb.GetFile(item.Attachments.UrlPrefix + fileName)
+            let newFile = shadowFolder.Files.Add(fileName, existingFile.OpenBinaryStream())
+            newFile.Item.Update())
+
+    // member private RollbackHappened : item:SPListItem -> bool
+    member private r.RollbackHappened item =
+        let culture = CultureInfo.InvariantCulture
+        let currentVersion = Single.Parse(r.GetOfficialVersionLabel(item), culture)
+        let lastVersion = Single.Parse(r.GetCustomVersionLabel(item), culture)
+        currentVersion > lastVersion + 1.0f
+
+    // member private RestoreSnapshot : properties:SPItemEventProperties -> unit
+    member private r.RestoreSnapshot properties =
+        let item = properties.ListItem
+        let restoreVersion = r.GetCustomVersionLabel item
+        r.EventFiringEnabled <- false    
+
+        item.Attachments |> Seq.cast |> Seq.map (fun fileName -> unbox<string> fileName) |> Seq.toList
+                         |> Seq.iter (fun fileName -> item.Attachments.Delete(fileName))
+
+        use site = properties.OpenWeb()
+        let path = String.Format("Versions/{0}/{1}", item.ID, restoreVersion)
+        let shadowLibrary = site.Lists.[r.ShadowLibrary] :?> SPDocumentLibrary
+        let source = r.CreateFolderPath shadowLibrary path
+
+        source.Files |> Seq.cast |> Seq.iter (fun file ->
+            let unboxedFile = unbox<SPFile> file
+            item.Attachments.Add(unboxedFile.Name, unboxedFile.OpenBinary()))
+
+        item.SystemUpdate false
+        r.EventFiringEnabled <- true
+
+    // member private CreateFolderPath : list:SPDocumentLibrary -> path:string -> SPFolder
+    member private r.CreateFolderPath list path : SPFolder =
+        r.CreateFolderPathRecursive list.RootFolder (path.Split [|'/'|] |> Array.toList)
+
+    // member private CreateFolderPathRecursive : folder:SPFolder -> pathComponents:string list -> SPFolder
+    member private r.CreateFolderPathRecursive folder pathComponents =
+        match pathComponents with
+        | [] -> folder
+        | head :: tail ->
+            try
+                let existingFolder = folder.SubFolders.[head]
+                r.CreateFolderPathRecursive existingFolder tail
+            with
+                :? ArgumentException ->
+                    let newFolder = folder.SubFolders.Add head
+                    r.CreateFolderPathRecursive newFolder tail
+
+    // member private SetCustomVersionLabel : item:SPListItem -> unit
+    member private r.SetCustomVersionLabel item =
+        r.EventFiringEnabled <- false
+        item.[r.CustomVersion] <- r.GetOfficialVersionLabel item
+        item.SystemUpdate false
+        r.EventFiringEnabled <- true  
+
+    // member private GetCustomVersionLabel : item:SPListItem -> string
+    member private r.GetCustomVersionLabel item =
+        item.[r.CustomVersion] :?> string
+
+    // member private GetOfficialVersionLabel : item:SPListItem -> string
+    member private r.GetOfficialVersionLabel item =
+        item.Versions.[0].VersionLabel
