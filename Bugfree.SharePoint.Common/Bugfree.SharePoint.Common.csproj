@@ -55,6 +55,7 @@
     <Compile Include="Source\DataAccess\ListRepository.cs" />
     <Compile Include="Source\Extensions\SPFieldCollectionExtensions.cs" />
     <Compile Include="Source\Extensions\SPListCollectionExtensions.cs" />
+    <Compile Include="Source\Extensions\SPListExtensions.cs" />
     <Compile Include="Source\Extensions\SPViewCollectionExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
