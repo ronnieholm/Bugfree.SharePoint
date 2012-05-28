@@ -5,6 +5,9 @@ open System.Collections.Generic
 open Microsoft.SharePoint
 open Microsoft.SharePoint.Taxonomy
 
+// See also:
+// http://www.bugfree.dk/blog/2012/05/20/importing-csv-term-sets-into-sharepoint-2010-using-f/
+
 let importCsv path =
     seq { use sr = File.OpenText(path)
           while not sr.EndOfStream do
