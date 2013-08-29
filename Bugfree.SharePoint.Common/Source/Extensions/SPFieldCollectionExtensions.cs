@@ -26,7 +26,7 @@ namespace Bugfree.SharePoint.Common.Source.Extensions
                 { typeof(SPFieldChoice), SPFieldType.Choice },
                 { typeof(SPFieldUrl), SPFieldType.URL },
                 { typeof(SPFieldMultiChoice), SPFieldType.MultiChoice },
-                {typeof (SPFieldGuid), SPFieldType.Guid}
+                { typeof (SPFieldGuid), SPFieldType.Guid }
             };
 
             var fieldType = spFieldToFieldType[typeof(TSPField)]; 
