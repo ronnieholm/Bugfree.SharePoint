@@ -25,12 +25,19 @@ namespace Bugfree.SharePoint.Common.Source.Extensions
                 { typeof(SPFieldText), SPFieldType.Text },
                 { typeof(SPFieldChoice), SPFieldType.Choice },
                 { typeof(SPFieldUrl), SPFieldType.URL },
-                { typeof(SPFieldMultiChoice), SPFieldType.MultiChoice }
+                { typeof(SPFieldMultiChoice), SPFieldType.MultiChoice },
+                {typeof (SPFieldGuid), SPFieldType.Guid}
             };
 
             var fieldType = spFieldToFieldType[typeof(TSPField)]; 
             var list = fields.List;
-            var f = list.Fields[list.Fields.Add(internalName, fieldType, false)];
+
+            // when multiple content types are associated with the list, the field will get added to
+            // the 'first' one. A copy of each content type is made when it's associated with a list.
+            var fieldName = list.Fields.Add(internalName, fieldType, false);
+            fieldName = fieldName.Replace("_x00f8_", "ø");
+
+            var f = list.Fields[fieldName];
             f.Title = displayName;
             f.Update();
             return f as TSPField;
